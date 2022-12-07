@@ -1,0 +1,15 @@
+Image ja Docker:
+
+docker run -d --rm -it --name missdepe-it ubuntu sh -c 'echo "Input 
+website:"; read website; echo "Searching.."; sleep 1; curl 
+http://$website;'
+
+Bash, curl käyttöön:
+
+docker exec -it missdepe-it bash
+apt-get update; apt-get install curl
+
+Input:
+
+docker attach  missdepe-it 
+  Ja inputtiin : helsinki.fi
