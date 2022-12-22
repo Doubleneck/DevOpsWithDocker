@@ -1,0 +1,48 @@
+DOCKERFILE FRONT:
+*****************
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY . .
+ENV REACT_APP_BACKEND_URL=http://localhost:8080/
+RUN apt-get update && apt-get install -y curl -sL 
+https://deb.nodesource.com/se$
+
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+RUN node -v && npm -v
+RUN npm install && npm run build && npm install -g serve
+
+CMD ["serve", "-s", "-l", "5000", "build"]
+
+EXPOSE 5000
+
+
+DOCKERFILE BACK:
+****************
+
+FROM golang:1.16
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+ENV REQUEST_ORIGIN http://localhost:5000
+EXPOSE 8080
+
+RUN go build
+
+CMD ./server
+
+
+COMMANDS TO START APPLICATIONS:
+*******************************
+
+docker build --no-cache . -t example-frontend && docker run -p 5000:5000 
+example-frontend
+
+
+
+docker build --no-cache . -t example-backend && docker run -p 8080:8080 
+example-backend
