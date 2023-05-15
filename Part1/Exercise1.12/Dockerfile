@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y curl -sL https://deb.nodesource.com/set
 RUN apt-get install -y nodejs
 RUN apt-get install -y npm
 RUN node -v && npm -v
-RUN npm install && npm run build && npm install -g serve
+RUN npm install && npm run build 
+RUN npm install -g serve
 
 CMD ["serve", "-s", "-l", "5000", "build"]
 
