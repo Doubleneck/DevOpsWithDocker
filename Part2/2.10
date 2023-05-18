@@ -1,0 +1,66 @@
+#DOCKER-COMPOSE.YML:
+
+version: '3.8'
+
+services:
+    backend:
+      build: ./example-backend
+      restart: unless-stopped
+      environment:
+        - REDIS_HOST=redis
+        - POSTGRES_HOST=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=example
+        - POSTGRES_DATABASE=postgres
+      container_name: backend
+      depends_on:
+        - db
+
+    frontend:
+      build: ./example-frontend
+      container_name: frontend
+      depends_on:
+        - backend
+
+    redis:
+      image: redis
+
+    db:
+      image: postgres:13.2-alpine
+      restart: unless-stopped
+      environment:
+        POSTGRES_PASSWORD: example
+      volumes:
+        - ./database:/var/lib/postgresql/data
+      container_name: postgres
+
+
+    nginx:
+      image: nginx
+      volumes:
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      ports:
+        - 80:80
+      container_name: nginx
+      depends_on:
+        - backend
+        - frontend
+        
+% docker run -it --rm --network host networkstatic/nmap localhost
+
+Unable to find image 'networkstatic/nmap:latest' locally
+latest: Pulling from networkstatic/nmap
+213ec9aee27d: Pull complete 
+c7286bfc71dc: Pull complete 
+Digest: sha256:a4a64067a87bcd32d3814f65218e4a5bd97e7eb617788c1aea4c086b1ad405a3
+Status: Downloaded newer image for networkstatic/nmap:latest
+Starting Nmap 7.92 ( https://nmap.org ) at 2023-05-18 18:24 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000011s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 998 closed tcp ports (reset)
+PORT    STATE    SERVICE
+80/tcp  filtered http
+111/tcp open     rpcbind
+
+Nmap done: 1 IP address (1 host up) scanned in 1.29 seconds        
