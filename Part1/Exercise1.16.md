@@ -1,10 +1,10 @@
 # Sovellus fly.io:ssa on meidän syksyn 2022 (buginen) ohtu-miniprojektin bibtex-generaattori:
 
-https://jettatest.fly.dev/
+[ohtu 2022 Jetta kopio](https://jettapipeline.fly.dev/)
 
 ## Projektin Github:
 
-https://github.com/Doubleneck/Jetta
+https://github.com/Doubleneck/JettaPipeline
 
 ## Dockerfile:
 
