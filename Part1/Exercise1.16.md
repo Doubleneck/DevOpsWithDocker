@@ -1,4 +1,4 @@
-# Sovellus fly.io:ssa on meidän syksyn 2022 (buginen) ohtu-miniprojektin bibtex-generaattori:
+# Sovellus fly.io:ssa on meidän syksyn 2022 (buginen) ohtu-miniprojektin bibtex-generaattorin kopio:
 
 [ohtu 2022 Jetta kopio fly.io:ssa](https://jettapipeline.fly.dev/)
 
