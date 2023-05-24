@@ -1,0 +1,47 @@
+#!/bin/sh
+
+git clone "https://github.com/$1" clone_repo
+
+docker build -t $2 ./clone_repo
+
+rm -rf ./clone_repo
+
+docker login
+
+docker image push $2
+**************************
+Laitetaan nyt vielä lisäks tämä Chat-GPT:n generoima, jossa mukavat kayttöfeaturet ja kommentointikin ai:n puolesta:
+
+#!/bin/bash
+
+# Check if the correct number of parameters is provided
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <github-repository> <docker-hub-repository>"
+  exit 1
+fi
+
+# Extract repository name from GitHub URL
+repository_name=$(basename "$1" .git)
+
+# Clone the GitHub repository
+git clone "$1" "$repository_name"
+cd "$repository_name"
+
+# Build the Docker image
+docker build -t "$repository_name" .
+
+# Tag the image for Docker Hub
+docker tag "$repository_name" "$2"
+
+# Log in to Docker Hub (you need to provide your Docker Hub credentials)
+docker login
+
+# Push the image to Docker Hub
+docker push "$2"
+
+# Clean up by removing the cloned repository
+cd ..
+rm -rf "$repository_name"
+
+echo "Docker image successfully published to $2"
+
