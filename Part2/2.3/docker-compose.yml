@@ -4,10 +4,10 @@ services:
     backend:
       build: ./example-backend
       ports:
-        - 8080:8080
+        - 127.0.0.1:8080:8080
       container_name: backend
     frontend:
       build: ./example-frontend
       ports:
-        - 5000:5000
+        - 127.0.0.1:5000:5000
       container_name: frontend
