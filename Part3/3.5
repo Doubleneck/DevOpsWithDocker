@@ -1,0 +1,48 @@
+Dockerfile front:
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN apt-get update && apt-get install -y curl -sL https://deb.nodesource.com/setup$
+
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+RUN node -v && npm -v
+RUN npm install && npm run build
+RUN npm install -g serve
+
+
+RUN useradd -m appuser
+RUN chown appuser .
+USER appuser
+
+CMD ["serve", "-s", "-l", "5000", "build"]
+
+EXPOSE 5000
+
+************************
+Dockerfile back:
+
+FROM golang:1.20-alpine3.17
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+ENV REQUEST_ORIGIN http://localhost:5000
+EXPOSE 8080
+
+RUN go build
+
+# create the appuser
+RUN adduser -D  appuser
+
+# change the owner of current dir to appuser
+RUN chown appuser .
+
+# now we can change the user
+USER appuser
+
+CMD ./server
