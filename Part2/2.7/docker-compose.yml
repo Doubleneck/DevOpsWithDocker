@@ -5,7 +5,7 @@ services:
       build: ./example-backend
       restart: unless-stopped
       ports:
-        - 8080:8080
+        - 127.0.0.1:8080:8080
       environment:
         - REDIS_HOST=redis
         - POSTGRES_HOST=postgres
@@ -19,7 +19,7 @@ services:
     frontend:
       build: ./example-frontend
       ports:
-        - 5000:5000
+        - 127.0.0.1:5000:5000
       container_name: frontend
 
     redis:
@@ -40,4 +40,4 @@ services:
       environment:
         - ADMINER_DESIGN=galkaev
       ports:
-        - 8083:8080 
+        - 127.0.0.1:8083:8080 
