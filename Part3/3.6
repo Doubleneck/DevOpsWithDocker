@@ -1,0 +1,37 @@
+Front Dockerfile:
+(Ennen 1,33 GB, nyt 1,26 GB)
+**********
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN npm install && npm run build && \
+    npm install -g serve && \
+    useradd -m appuser &&  chown appuser .
+
+USER appuser
+
+CMD ["serve", "-s", "-l", "5000", "build"]
+
+EXPOSE 5000
+
+
+**********
+Back Dockerfile:
+(ennen 487,18 MB, nyt 487,18MB)
+
+FROM golang:1.20-alpine3.17
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+ENV REQUEST_ORIGIN http://localhost:5000
+EXPOSE 8080
+
+RUN go build && adduser -D  appuser && chown appuser .
+
+USER appuser
+CMD ./server
